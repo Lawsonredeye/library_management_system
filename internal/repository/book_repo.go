@@ -13,6 +13,7 @@ type BookRepositoryInterface interface {
 	DeleteBookByID(id string) error
 	PrintBooks()
 	UpdateBookByID(id string, title, author string, publishedYear int, genre string) error
+	GetBookByID(id string) (*domain.Book, error)
 }
 
 type BookRepository struct {
@@ -43,6 +44,14 @@ func (r *BookRepository) PrintBooks() {
 	for _, val := range r.books {
 		fmt.Println(val.Title, val.Author, val.PublishedYear)
 	}
+}
+
+func (r *BookRepository) GetBookByID(id string) (*domain.Book, error) {
+	d, exists := r.books[id]
+	if !exists {
+		return nil, errors.New("book with id not found")
+	}
+	return d, nil
 }
 
 func (r *BookRepository) UpdateBookByID(id string, title, author string, publishedYear int, genre string) error {
