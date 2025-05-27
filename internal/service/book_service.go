@@ -24,3 +24,7 @@ func (b *BookService) DeleteBookByID(id string) error {
 func (b *BookService) PrintBooks() {
 	b.BookRepo.PrintBooks()
 }
+
+func (b *BookService) UpdateBookByID(id string, title, author string, publishedYear int, genre string) error {
+	return b.BookRepo.UpdateBookByID(id, title, author, publishedYear, genre)
+}
