@@ -1,12 +1,18 @@
 package service
 
-import "github.com/lawsonredeye/lms/internal/repository"
+import (
+	"errors"
+
+	"github.com/lawsonredeye/lms/internal/domain"
+	"github.com/lawsonredeye/lms/internal/repository"
+)
 
 type BookService struct {
-	BookRepo *repository.BookRepository
+	// BookRepo *repository.BookRepository
+	BookRepo repository.BookRepositoryInterface
 }
 
-func NewBookService(repo *repository.BookRepository) *BookService {
+func NewBookService(repo repository.BookRepositoryInterface) *BookService {
 	return &BookService{
 		BookRepo: repo,
 	}
@@ -27,4 +33,12 @@ func (b *BookService) PrintBooks() {
 
 func (b *BookService) UpdateBookByID(id string, title, author string, publishedYear int, genre string) error {
 	return b.BookRepo.UpdateBookByID(id, title, author, publishedYear, genre)
+}
+
+func (b *BookService) GetBookByID(id string) (*domain.Book, error) {
+	data, err := b.BookRepo.GetBookByID(id)
+	if err != nil {
+		return nil, errors.New("book with id not found")
+	}
+	return data, nil
 }
