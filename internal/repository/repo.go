@@ -8,6 +8,9 @@ type BookRepositoryInterface interface {
 	PrintBooks()
 	UpdateBookByID(id string, title, author string, publishedYear int, genre string) error
 	GetBookByID(id string) (*domain.Book, error)
+	BorrowBook(id, lenderId string) error
+	ReturnedBookByID(id string) error
+	GetBorrowedBooks()
 }
 
 type MemberRepositoryInterface interface {
