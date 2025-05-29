@@ -42,3 +42,15 @@ func (b *BookService) GetBookByID(id string) (*domain.Book, error) {
 	}
 	return data, nil
 }
+
+func (b *BookService) ReturnBookByID(id string) error {
+	return b.BookRepo.ReturnedBookByID(id)
+}
+
+func (b *BookService) BorrowBook(id, lenderId string) error {
+	return b.BookRepo.BorrowBook(id, lenderId)
+}
+
+func (b *BookService) GetAllBorrowedBooks() {
+	b.BookRepo.GetBorrowedBooks()
+}
