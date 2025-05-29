@@ -21,5 +21,26 @@ func main() {
 
 	d, _ := bookService.GetBookByID(id)
 	log.Println(d)
-	bookService.PrintBooks()
+	// bookService.PrintBooks()
+
+	mDB := repository.NewMemberDatabase() // This initialised the database that would be used to store the members credentials
+
+	membService := service.NewMemberService(mDB)
+
+	// Since this is  a CLI application then i would be handling everything here, Sorry ^_^
+	membService.CreateMember("lawson", "you cant copy this flow, haha")
+	membService.CreateMember("Benson", "you cant copy this flow, haha")
+	membService.CreateMember("Denson", "you cant copy this flow, haha")
+	res := membService.CreateMember("Dickson", "you cant copy this flow, haha")
+	printOut(*membService)
+
+	membService.UpdateMemberByID(res, "", "how on earth is this possible!")
+	printOut(*membService)
+}
+
+func printOut(membService service.MemberService) {
+	resp := membService.GetAllMembers()
+	for idx, val := range resp {
+		fmt.Printf("member %v: %+v\n", idx, *val)
+	}
 }
