@@ -13,4 +13,6 @@ type BookRepositoryInterface interface {
 type MemberRepositoryInterface interface {
 	CreateMember(name, password string) string
 	GetAllMembers() []*domain.Members
+	DeleteMemberByID(id string) error
+	UpdateMemberByID(id, name, password string) error
 }
