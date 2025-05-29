@@ -1,6 +1,15 @@
 package repository
 
-import "github.com/lawsonredeye/lms/internal/domain"
+import (
+	"errors"
+	"time"
+
+	"github.com/lawsonredeye/lms/internal/domain"
+)
+
+const (
+	ERRIDNOTFOUND string = "member with id not found"
+)
 
 type MemberRepoDB struct {
 	database map[string]*domain.Members
@@ -25,4 +34,31 @@ func (r *MemberRepoDB) GetAllMembers() []*domain.Members {
 		resp = append(resp, val)
 	}
 	return resp
+}
+
+func (r *MemberRepoDB) DeleteMemberByID(id string) error {
+	m := r.database[id]
+	if m == nil {
+		return errors.New(ERRIDNOTFOUND)
+	}
+
+	delete(r.database, m.ID)
+	return nil
+}
+
+func (r *MemberRepoDB) UpdateMemberByID(id, name, password string) error {
+	m := r.database[id]
+	if m == nil {
+		return errors.New(ERRIDNOTFOUND)
+	}
+
+	if name != "" {
+		m.Name = name
+	}
+	if password != "" && len(password) > 7 {
+		m.Password = password
+	}
+
+	m.UpdatedAt = time.Now()
+	return nil
 }
