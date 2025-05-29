@@ -24,7 +24,6 @@ func main() {
 	// bookService.PrintBooks()
 
 	mDB := repository.NewMemberDatabase() // This initialised the database that would be used to store the members credentials
-
 	membService := service.NewMemberService(mDB)
 
 	// Since this is  a CLI application then i would be handling everything here, Sorry ^_^
@@ -36,6 +35,12 @@ func main() {
 
 	membService.UpdateMemberByID(res, "", "how on earth is this possible!")
 	printOut(*membService)
+
+	if err := bookService.BorrowBook(id, res); err != nil {
+		log.Fatalln(err)
+	}
+
+	bookService.GetAllBorrowedBooks()
 }
 
 func printOut(membService service.MemberService) {
