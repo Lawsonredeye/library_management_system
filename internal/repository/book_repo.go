@@ -9,12 +9,14 @@ import (
 )
 
 type BookRepository struct {
-	books map[string]*domain.Book
+	books      map[string]*domain.Book
+	bookLedger map[string]*domain.BookLedger
 }
 
 func NewBookDatabase() *BookRepository {
 	return &BookRepository{
-		books: make(map[string]*domain.Book),
+		books:      make(map[string]*domain.Book),
+		bookLedger: make(map[string]*domain.BookLedger),
 	}
 }
 
@@ -68,4 +70,30 @@ func (r *BookRepository) UpdateBookByID(id string, title, author string, publish
 
 	r.books[id] = book
 	return nil
+}
+
+func (r *BookRepository) BorrowBook(id, lenderId string) error {
+	if exists := r.books[id]; exists == nil {
+		return errors.New(domain.ERRBOOKNOTFOUND)
+	}
+
+	book := domain.NewBorrowedBook(id, lenderId)
+	r.bookLedger[id] = book
+	return nil
+}
+
+func (r *BookRepository) ReturnedBookByID(id string) error {
+	book := r.bookLedger[id]
+	if book == nil {
+		return errors.New(domain.ERRBOOKNOTFOUND)
+	}
+
+	book.Status = domain.RETURNED
+	return nil
+}
+
+func (r *BookRepository) GetBorrowedBooks() {
+	for _, val := range r.bookLedger {
+		fmt.Printf("Book id: %v, lender: %v, status: %v, borrowed time: %v\n", val.BookID, val.LenderID, val.Status, val.CreatedAt)
+	}
 }
