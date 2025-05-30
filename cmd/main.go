@@ -26,6 +26,9 @@ func main() {
 	mDB := repository.NewMemberDatabase() // This initialised the database that would be used to store the members credentials
 	membService := service.NewMemberService(mDB)
 
+	loanDB := repository.NewLoanDB()
+	loanService := service.NewLoanService(loanDB)
+
 	// Since this is  a CLI application then i would be handling everything here, Sorry ^_^
 	membService.CreateMember("lawson", "you cant copy this flow, haha")
 	membService.CreateMember("Benson", "you cant copy this flow, haha")
@@ -40,7 +43,8 @@ func main() {
 		log.Fatalln(err)
 	}
 
-	bookService.GetAllBorrowedBooks()
+	loanService.BorrowAnyBook(id, res) // Can only handle one book at this point, might change that if i use a real db
+	loanService.PrintBorrowedBooks()
 }
 
 func printOut(membService service.MemberService) {
