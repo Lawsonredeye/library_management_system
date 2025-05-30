@@ -10,13 +10,13 @@ import (
 
 type BookRepository struct {
 	books      map[string]*domain.Book
-	bookLedger map[string]*domain.BookLedger
+	bookLedger map[string]*domain.BookLoan
 }
 
 func NewBookDatabase() *BookRepository {
 	return &BookRepository{
 		books:      make(map[string]*domain.Book),
-		bookLedger: make(map[string]*domain.BookLedger),
+		bookLedger: make(map[string]*domain.BookLoan),
 	}
 }
 
