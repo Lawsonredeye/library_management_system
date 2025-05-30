@@ -22,14 +22,6 @@ type Book struct {
 	UpdatedAt     time.Time `json:"updated_at"`
 }
 
-type BookLedger struct {
-	BookID    string
-	LenderID  string
-	Status    string
-	CreatedAt time.Time
-	UpdatedAt time.Time
-}
-
 func NewBook(title, author string, publishedYear int, genre string) *Book {
 	id, _ := pkg.GenerateUUID()
 	now := time.Now()
@@ -41,16 +33,5 @@ func NewBook(title, author string, publishedYear int, genre string) *Book {
 		Genre:         genre,
 		CreatedAt:     now,
 		UpdatedAt:     now,
-	}
-}
-
-func NewBorrowedBook(id, lenderId string) *BookLedger {
-	now := time.Now()
-	return &BookLedger{
-		BookID:    id,
-		LenderID:  lenderId,
-		Status:    BORROWED,
-		CreatedAt: now,
-		UpdatedAt: now,
 	}
 }
