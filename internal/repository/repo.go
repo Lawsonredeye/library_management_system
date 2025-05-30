@@ -8,9 +8,6 @@ type BookRepositoryInterface interface {
 	PrintBooks()
 	UpdateBookByID(id string, title, author string, publishedYear int, genre string) error
 	GetBookByID(id string) (*domain.Book, error)
-	BorrowBook(id, lenderId string) error
-	ReturnedBookByID(id string) error
-	GetBorrowedBooks()
 }
 
 type MemberRepositoryInterface interface {
@@ -18,4 +15,11 @@ type MemberRepositoryInterface interface {
 	GetAllMembers() []*domain.Members
 	DeleteMemberByID(id string) error
 	UpdateMemberByID(id, name, password string) error
+}
+
+type LoanRepo interface {
+	BorrowBook(id, lenderId string) error
+	ReturnedBookByID(id string) error
+	GetBorrowedBooks()
+	GetReturnedBooks()
 }
